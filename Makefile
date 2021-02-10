@@ -94,9 +94,9 @@ install: manifests
 
 # Deploy controller in the configured Kubernetes cluster in ~/.kube/config
 deploy: install-kustomize manifests
-	bin/kustomize build config | kubectl apply -f -
+	bin/kustomize build config | kubectl apply --server-side -f -
 	./scripts/image_patch.sh "${KUSTOMIZE_BASE}/manager_image_patch.yaml" ${IMG}
-	bin/kustomize build $(KUSTOMIZE_BASE) | kubectl apply -f -
+	bin/kustomize build $(KUSTOMIZE_BASE) | kubectl apply --server-side -f -
 
 # Generate manifests e.g. CRD, RBAC etc.
 manifests: bin/controller-gen
